@@ -18,12 +18,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK 8
+      - name: Set up JDK 17 for Android SDK tools
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "8"
-          cache: gradle
+          java-version: "17"
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
@@ -35,6 +34,13 @@ jobs:
             "platform-tools" \
             "platforms;android-27" \
             "build-tools;27.0.3"
+
+      - name: Set up JDK 8 for Gradle build
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+          cache: gradle
 
       - name: Build and test
         run: ./gradlew --no-daemon --console=plain :lib:assembleDebug :app:assembleDebug test
